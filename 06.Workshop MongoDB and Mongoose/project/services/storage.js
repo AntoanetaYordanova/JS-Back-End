@@ -1,24 +1,8 @@
 const fs = require('fs/promises');
 const uniqid = require('uniqid');
-
-// load and parse data file
-// provide ability to:
-// - read all entries
-// - read single entry by ID
-// - add new entry
-// * get matching entries by search criteria
+const Cube = require('../models/Cube');
 
 let data = {};
-
-/* Model structure */
-/*
-    {
-        "name": "string",
-        "description": "string",
-        "imageUrl": "string",
-        "difficulty": "number"
-    }
-*/
 
 async function init() {
     try {
