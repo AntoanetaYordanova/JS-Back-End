@@ -1,0 +1,10 @@
+.wrapper {
+    width: 1200px;
+    margin: auto;
+    text-align: center;
+}
+
+.auth-wrapper {
+    width: 400px;
+    margin: auto;
+}
