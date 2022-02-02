@@ -22,7 +22,13 @@ module.exports = {
             difficulty: Number(req.body.difficulty)
         };
         try {
-            await req.storage.edit(req.params.id, cube);
+            try {
+                await req.storage.edit(req.params.id, cube);
+            } catch (err) {
+                if(err.name == 'ValidationError') {
+                    return res.render('edit', {title : 'Edit Cube', error : 'All fields are required'});
+                }
+            }
             res.redirect('/');
         } catch (err) {
             res.redirect('404');

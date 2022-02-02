@@ -20,6 +20,8 @@ const cubeSchema = new Schema({
         min : 1,
         max : 6
     },
+    comments : [{ type : Schema.Types.ObjectId, ref : 'Comment'}],
+    accessories : [{ type : Schema.Types.ObjectId, ref : 'Accessory'}]
 });
 
 module.exports = model('Cube', cubeSchema);

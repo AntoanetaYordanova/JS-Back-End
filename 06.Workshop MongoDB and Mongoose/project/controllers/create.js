@@ -13,7 +13,8 @@ module.exports = {
     try {
       await req.storage.create(cube);
     } catch (err) {
-      if(err.name == 'Validation error') {
+        console.log(err.name);
+      if(err.name == 'ValidationError') {
           return res.render('create', { title: 'Create Cube', error : 'All fields are required' })
       }
     }

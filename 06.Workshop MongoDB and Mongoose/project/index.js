@@ -8,7 +8,7 @@ const databaseConfig = require('./config/database');
 start();
 
 async function start() {
-    const port = 5000;
+    const port = 3000;
     const app = express();
 
     app.use(await storage());

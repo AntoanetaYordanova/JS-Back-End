@@ -8,4 +8,25 @@
     <a class="btn" href="/">Back</a>
     <a class="btn" href="/edit/{{_id}}">Edit</a>
 </div>
+<div class="details">
+    <form action="/comments/{{cube._id}}/create" method="POST">
+    <span for="author">Name:
+        <input type="text" id="author" name="author">
+    </span>
+    <br>
+    <span for="content">Comment:
+        <textarea  id="content" cols="30" rows="10" name="content"></textarea>
+    </span> 
+    <br>
+    <input type="submit" value="Submit">
+</form>
+{{#if comments}}
+    {{#each comments}}
+        {{> comment}}
+    {{/each}}
+{{else}}
+<span style="font-style: italic;">No comments yet</span>
+{{/if}}
+</div>
 {{/with}}
+
