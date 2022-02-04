@@ -6,12 +6,17 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const uniqid = require('uniqid');
 const {engine} = require('express-handlebars');
-const secret = 'mysecret';
+const {secret} = require('./constants');
+const {auth} = require('./middlewares/authMiddleware');
+
+const { register, login } = require('./services/authService');
 
 const app = express();
 
 app.set('view engine', 'hbs');
 
+app.use(auth);
+app.use(express.urlencoded({extended : true}));
 app.use('/public', express.static('public'));
 
 app.use(cookieParser());
@@ -101,12 +106,54 @@ app.get('/token/verify', (req, res) => {
 
 });
 
+app.get('/', (req, res) => {
+    res.render('home');
+});
+
+app.get('/register', (req, res) => {
+    res.render('register');
+});
+
+app.post('/register', async (req, res) => {
+    const { username, password } = req.body;
+
+    try {
+        await register(username, password);
+
+        res.redirect('/login');
+    } catch (err) {
+        return res.status(400) .send(err.message);
+    }
+
+});
+
 app.get('/login', (req, res) => {
     res.render('login');
 });
 
-app.post('/login', (req, res) => {
-    
-});
+app.post('/login',async (req, res) => {
+    const { username, password } = req.body;
+    const user = await login(username, password);
+
+    if(user) {
+        jwt.sign({id : user.id, username : user.username}, secret, (err, token) => {
+            if(err) {
+                return res.status(400) .send(err);
+            }
+            res.cookie('jwt', token);
+            res.redirect('/');
+        });
+    } else {
+
+    }
+}); 
+
+app.get('/profile', (req, res) => {
+    if(!req.user) {
+        return res.status(401) .send('You are not authorised to view this page');
+    }
+
+    res.render('profile', req.user);
+})
 
 app.listen(5000, console.log.bind(console, 'Server is listening on port 5000...'));
