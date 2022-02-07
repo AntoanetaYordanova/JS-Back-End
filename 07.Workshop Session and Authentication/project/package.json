@@ -1,0 +1,19 @@
+{
+    "name": "name",
+    "description": "description",
+    "authors": "author",
+    "version": "1.0.0",
+    "main": "pathToMain",
+    "scripts": {
+        "start": "nodemon --ignore models/data.json"
+    },
+    "dependencies": {
+        "bcrypt": "5.0.1",
+        "cookie-parser": "1.4.6",
+        "express": "^4.17.1",
+        "express-handlebars": "^3.1.0",
+        "jsonwebtoken": "8.5.1",
+        "mongoose": "5.12.12",
+        "uniqid": "^5.0.3"
+    }
+}

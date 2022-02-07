@@ -15,11 +15,11 @@ const app = express();
 
 app.set('view engine', 'hbs');
 
-app.use(auth);
 app.use(express.urlencoded({extended : true}));
 app.use('/public', express.static('public'));
 
 app.use(cookieParser());
+app.use(auth);
 
 app.use(session({
     resave : false,
@@ -85,7 +85,7 @@ app.get('/token/create/:password', (req, res) => {
         id : uniqid(),
         password : req.params.password
     }
-    let options = {expiresId : '1d'};    
+    let options = {expiresIn : '1d'};    
 
     const token = jwt.sign(payload, secret, options);
 
