@@ -10,12 +10,17 @@ async function createUser({username, password, repeatPassword}) {
 
     const user = new User({
         username,
-        hashedPassowrd : await bcriypt.hash(password, 10)
+        hashedPassword : await bcriypt.hash(password, 10)
     });
 
     user.save();
 }
 
+async function getUserByUsername(username) {
+    return await User.findOne({ username :  {$regex : username, $options : 'i'}});
+}
+
 module.exports = {
-    createUser
+    createUser,
+    getUserByUsername
 }
