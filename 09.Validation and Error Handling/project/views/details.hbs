@@ -1,0 +1,37 @@
+{{#with cube}}
+<h1>{{name}}</h1>
+<img class="cube" src="{{imageUrl}}">
+<div class="details">
+    <p><span>Author:</span> {{author}}</p>
+    <p><span>Description:</span> {{description}}</p>
+    <p><span>Difficulty level:</span> {{difficulty}}</p>
+    <a class="btn" href="/products">Back</a>
+
+    {{#if isOwner}}
+    <a class="btn" href="/products/details/{{_id}}/attach">Attach Stickers</a>
+    <a class="btn" href="/products/edit/{{_id}}">Edit</a>
+    <a class="btn" href="/products/delete/{{_id}}">Delete</a>
+    {{/if}}
+    
+</div>
+<h2>Accessories</h2>
+<div class="accessories">
+    {{#each accessories}}
+    {{> accessory}}
+    {{else}}
+    <h3 class="italic">This cube has no accessories yet...</h3>
+    {{/each}}
+</div>
+<div class="details">
+    <form action="/comments/{{_id}}/create" method="POST">
+        <span>Comment:</span><br>
+        <textarea name="content"></textarea>
+        <input type="submit" value="Post comment">
+    </form>
+    {{#each comments}}
+    {{> comment}}
+    {{else}}
+    <span style="font-style: italic;">No comments yet. Be the first!</span>
+    {{/each}}
+</div>
+{{/with}}

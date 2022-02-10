@@ -1,0 +1,17 @@
+<h1>Browser</h1>
+<form action="/" method="GET">
+    <input type="text" class="search" name="search" placeholder="Search..." value={{search}}>
+    <input type="number" name="from" class="difficulty" placeholder="Difficulty from..." value={{from}}>
+    <span>-</span>
+    <input type="number" name="to" class="difficulty" placeholder="Difficulty to..." value={{to}}>
+    <input type="submit" value="search">
+</form>
+
+<div class="cube-list">
+{{#each cubes}}
+{{> cube}}
+{{else}}
+<span>No cubes in database. <a style="color: blue" href="/products/create">Create the first one</a></span>
+{{/each}}
+</div>
+<script type="module" src="/js/app.js"></script>
