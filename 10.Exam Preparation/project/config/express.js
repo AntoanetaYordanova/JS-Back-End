@@ -14,7 +14,7 @@ module.exports = (app) => {
         secret : 'secret',
         resave : false,
         saveUninitialized : true,
-        cookie : {secure : true}
+        cookie : {secure : 'auto'}
     }));
     app.use(express.urlencoded({extended : true}));
 }

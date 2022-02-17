@@ -5,7 +5,6 @@ const { hash, compare} = require('bcrypt');
 //TODO: add all required fields
 async function register(username, password) {
     const existing = await(getUserByUsername(username));
-
     if(existing) {
         throw new Error('Username is taken');    
     }
@@ -17,6 +16,8 @@ async function register(username, password) {
         hashedPassword
     });
 
+    console.log(user);
+
     await user.save();
 
     return user;
@@ -25,10 +26,15 @@ async function register(username, password) {
 //TODO: change identifier
 
 async function login(username, password) {
+    // console.log(username);
     const user = await getUserByUsername(username);
-    const passwordMatch = await compare(password, user.hashedPassword)
 
-    if(!user || !passwordMatch) {
+    if(!user) {
+        throw new Error('Wrong username or password');
+    }
+    const passwordMatch = await compare(password, user.hashedPassword);
+
+    if(!passwordMatch) {
         throw new Error('Wrong username or password');
     }
 
@@ -37,7 +43,7 @@ async function login(username, password) {
 
 //TODO: find user by given identifier 
 async function getUserByUsername(username) {
-    return User.find({ username });
+    return await User.findOne({ username });
 }
 
 module.exports = {
