@@ -1,5 +1,5 @@
 const { isUser } = require('../middlewares/guards');
-const { createPost, getPostById, editPost } = require('../services/post');
+const { createPost, getPostById, editPost, deletePost } = require('../services/post');
 const { mapErrors, postViewModel } = require('../utils/mappers');
 
 const router = require('express').Router();
@@ -17,7 +17,7 @@ router.post('/create', isUser(), async (req, res) => {
         location : req.body.location,
         date : req.body.date,
         image : req.body.image,
-        description : req.body.description,
+        descrpition : req.body.description,
         author : userId
     }
     try {
@@ -43,6 +43,12 @@ router.get('/edit/:id',isUser(), async (req, res) => {
 
 router.post('/edit/:id', isUser(), async (req, res) => {
     const id = req.params.id;
+    const existing = postViewModel(await getPostById(req.params.id));
+
+    if(req.session.user._id != existing.author._id) {
+        return res.redirect('/');
+    }
+
     const post = {
         title : req.body.title,
         keyword : req.body.keyword,
@@ -59,8 +65,29 @@ router.post('/edit/:id', isUser(), async (req, res) => {
     } catch (err) {
         console.log(err);
         const errors = mapErrors(err);
+        post._id = id;
         res.render('edit', { title : 'Edit Page', post, errors});
     }
+});
+
+router.get('/delete/:id', isUser(), async (req, res) => {
+    const id = req.params.id;
+    const post = postViewModel(await getPostById(id));
+
+    if(req.session.user._id != post.author._id) {
+        return res.redirect('/');
+    }
+    
+    try {
+        await deletePost(req.params.id);
+        res.redirect('/catalog');
+    } catch (err) {
+        res.redirect('/details/' + id);
+    }
+});
+
+router.get('/vote/:id/:type', isUser(), (req, res) => {
+    
 });
 
 module.exports = router;

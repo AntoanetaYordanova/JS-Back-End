@@ -29,9 +29,14 @@ async function editPost(id, post) {
     await existing.save();
 }
 
+async function deletePost (id) {
+    await Post.findByIdAndDelete(id);
+}
+
 module.exports = {
     createPost,
     getPosts,
     getPostById,
-    editPost
+    editPost,
+    deletePost
 }
