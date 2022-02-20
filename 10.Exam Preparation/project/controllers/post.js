@@ -1,5 +1,5 @@
 const { isUser } = require('../middlewares/guards');
-const { createPost, getPostById, editPost, deletePost } = require('../services/post');
+const { createPost, getPostById, editPost, deletePost, vote } = require('../services/post');
 const { mapErrors, postViewModel } = require('../utils/mappers');
 
 const router = require('express').Router();
@@ -82,12 +82,26 @@ router.get('/delete/:id', isUser(), async (req, res) => {
         await deletePost(req.params.id);
         res.redirect('/catalog');
     } catch (err) {
+        console.log(err);
         res.redirect('/details/' + id);
     }
 });
 
-router.get('/vote/:id/:type', isUser(), (req, res) => {
+router.get('/vote/:id/:type', isUser(), async (req, res) => {
+    const id = req.params.id;
+    const value = req.params.type == 'upvote' ? 1 : -1;
     
+    try {
+        await vote(id, req.session.user._id, value);
+        res.redirect('/details/' + id);
+    } catch (err) {
+        console.log(err);
+        res.redirect('/details/' + id);
+    }
+});
+
+router.all('*', (req, res) => {
+    res.render('404');
 });
 
 module.exports = router;

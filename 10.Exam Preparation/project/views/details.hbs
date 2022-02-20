@@ -23,8 +23,8 @@
             {{#if hasVoted}}
               <p class="thanks-for-vote">Thanks For Voting</p>
             {{else}}
-              <a href="#" class="vote-up">UpVote +1</a>
-              <a href="#" class="vote-down">DownVote -1</a>
+              <a href="/vote/{{_id}}/upvote" class="vote-up">UpVote +1</a>
+              <a href="/vote/{{_id}}/downvote" class="vote-down">DownVote -1</a>
             {{/if}}
           </div>
           {{/if}}
