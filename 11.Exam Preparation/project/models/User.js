@@ -14,7 +14,8 @@ const userSchema = new Schema({
     },
     gender : {
         type : String,
-        required : true 
+        required : true,
+        enum : ['male', 'female']
     },
     trips : {
         type : [Schema.Types.ObjectId],

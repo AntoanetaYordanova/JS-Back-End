@@ -3,7 +3,6 @@ const User = require('../models/User');
 const { hash, compare} = require('bcrypt');
 
 async function register(email, password, gender) {
-    console.log(gender);
     const existing = await(getUserByUsername(email));
     if(existing) {
         throw new Error('Username is taken');    
@@ -37,8 +36,8 @@ async function login(email, password) {
     return user;
 }
 
-async function getUserByUsername(username) {
-    return await User.findOne({ username : new RegExp (`^${username}$`, 'i')});
+async function getUserByUsername(email) {
+    return await User.findOne({ email : new RegExp (`^${email}$`, 'i')});
 }
 
 module.exports = {
