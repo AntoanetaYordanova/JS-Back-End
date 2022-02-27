@@ -21,6 +21,7 @@ router.post('/register', isGuest() ,async (req, res) => {
         req.session.user = user;
         res.redirect('/') 
     } catch (err) {
+        console.log(err);
         const errors = mapErrors(err);
         res.render('register',{ data : { email : req.body.email, firstName : req.body.firstName, lastName : req.body.lastName }, errors, title : 'Register'});
     }
